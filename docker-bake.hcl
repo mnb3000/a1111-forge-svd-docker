@@ -14,17 +14,11 @@ variable "CU_VERSION" {
     default = "118"
 }
 
-variable "IS_LATEST" {
-    default = false
-}
+target "docker-metadata-action" {}
 
 target "default" {
+    inherits = ["docker-metadata-action"]
     dockerfile = "Dockerfile"
-    tags = (
-      length(regexall("^testing", RELEASE)) > 0 ?
-      ["${USERNAME}/${APP}:testing"] :
-      flatten(["${USERNAME}/${APP}:${RELEASE}", IS_LATEST != false ? ["${USERNAME}/${APP}:latest"] : []])
-    )
     args = {
         RELEASE = "${RELEASE}"
         INDEX_URL = "https://download.pytorch.org/whl/cu${CU_VERSION}"

@@ -26,10 +26,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: mnb3000/a1111-forge-svd-docker
+          tags: |
+            type=schedule
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=branch
+            type=sha
+
       - name: Build and push
         uses: docker/bake-action@v4
         with:
-          source: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}"
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          targets: default
           push: true
         env:
-          RELEASE: testing-${{ github.run_number }}
+          RELEASE: dev-build-${{ github.run_number }}
