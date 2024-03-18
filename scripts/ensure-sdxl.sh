@@ -3,9 +3,26 @@ echo "Checking SDXL model"
 export SDXL_PATH=$APP/models/Stable-diffusion
 export VAE_PATH=$APP/models/VAE
 
-ensure_sdxl_base() {
+verify_checksum() {
+    FILENAME = $(basename $1)
 
-    if [ ! -f $SDXL_PATH/sd_xl_base_1.0.safetensors ]; then # TODO: add checksum check
+    echo "Verifying checksum for $FILENAME..."
+
+    CHECKSUM = $(sha256sum $1)
+    CHECKSUM_FILENAME = $FILENAME.sha256
+    EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
+
+    if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
+        echo "Checksum valid!"
+        return 0
+    fi
+    echo "Checksum not valid! Removing file, restart container to retry..."
+    rm -f $1
+    return 1
+}
+
+ensure_sdxl_base() {
+    if [ ! -f $SDXL_PATH/sd_xl_base_1.0.safetensors ]; then
         echo -n "Checking if there's enough space for SDXL base download..."
         FREE=$(df --output=avail -k $SDXL_PATH | tail -n 1)
         if [[ $FREE -lt 7000000 ]]; then
@@ -17,6 +34,8 @@ ensure_sdxl_base() {
         echo "Starting SDXL base weights download..."
         wget -o $SDXL_PATH/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
         echo "Successfully downloaded SDXL base weights!"
+
+        verify_checksum $SDXL_PATH/sd_xl_base_1.0.safetensors
     else
         echo "Found SDXL base weights"
     fi
@@ -35,6 +54,8 @@ ensure_sdxl_refiner() {
         echo "Starting SDXL refiner weights download..."
         wget -o $SDXL_PATH/sd_xl_refiner_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
         echo "Successfully downloaded SDXL refiner weights!"
+
+        verify_checksum $SDXL_PATH/sd_xl_refiner_1.0.safetensors
     else
         echo "Found SDXL refiner weights"
     fi
@@ -53,6 +74,8 @@ ensure_sdxl_vae() {
         echo "Starting SDXL VAE weights download..."
         wget -o $VAE_PATH/sdxl_vae.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors
         echo "Successfully downloaded SDXL VAE weights!"
+
+        verify_checksum $VAE_PATH/sdxl_vae.safetensors
     else
         echo "Found SDXL VAE weights"
     fi
