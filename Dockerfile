@@ -176,6 +176,10 @@ ENV TEMPLATE_VERSION=${RELEASE}
 ARG VENV_PATH
 ENV VENV_PATH=${VENV_PATH}
 
+# Create model directories
+RUN mkdir -p ./models/Stable-diffusion \
+    mkdir -p ./models/VAE
+
 # Copy the scripts
 WORKDIR /
 COPY --chmod=755 scripts/* ./
