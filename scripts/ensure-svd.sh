@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 echo "Checking SVD XT 1.1 model"
-export SVD_PATH=$APP/models/Stable-diffusion
+export SVD_PATH=/workspace/$APP/models/Stable-diffusion
 
 verify_checksum() {
-    FILENAME = $(basename $1)
+    $FILENAME = $(basename $1)
 
     echo "Verifying checksum for $FILENAME..."
 
-    CHECKSUM = $(sha256sum $1)
-    CHECKSUM_FILENAME = $FILENAME.sha256
-    EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
+    $CHECKSUM = $(sha256sum $1)
+    $CHECKSUM_FILENAME = $FILENAME.sha256
+    $EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
 
     if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
         echo "Checksum valid!"

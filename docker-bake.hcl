@@ -1,11 +1,3 @@
-variable "USERNAME" {
-    default = "mnb3000"
-}
-
-variable "APP" {
-    default = "a1111-forge-svd-docker"
-}
-
 variable "RELEASE" {
     default = "0.0.1-testing1"
 }
