@@ -23,6 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: release-on-push
     steps:
+      - name: Maximize build space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -35,10 +40,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: mnb3000/a1111-forge-svd-docker
+          flavor: |
+            latest=auto
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=branch
+
       - name: Build and push
         uses: docker/bake-action@v4
         with:
-          source: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}"
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          targets: default
           push: true
         env:
           RELEASE: ${{jobs.release-on-push.steps.release.outputs.tag_name}}
