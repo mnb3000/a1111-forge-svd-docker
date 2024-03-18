@@ -180,6 +180,9 @@ ENV VENV_PATH=${VENV_PATH}
 WORKDIR /
 COPY --chmod=755 scripts/* ./
 
+# Copy the checksums
+COPY checksums/* ./
+
 # Start the container
 SHELL ["/bin/bash", "--login", "-c"]
 CMD [ "/start.sh" ]

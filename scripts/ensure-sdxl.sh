@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 echo "Checking SDXL model"
-export SDXL_PATH=/workspace/$APP/models/Stable-diffusion
-export VAE_PATH=/workspace/$APP/models/VAE
+export SDXL_PATH="/workspace/$APP/models/Stable-diffusion"
+export VAE_PATH="/workspace/$APP/models/VAE"
 
 verify_checksum() {
-    local FILENAME = $(basename $1)
+    local FILENAME="$(basename $1)"
 
     echo "Verifying checksum for $FILENAME..."
 
-    local CHECKSUM = $(sha256sum $1)
-    local CHECKSUM_FILENAME = $FILENAME.sha256
-    local EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
+    local CHECKSUM="$(sha256sum $1)"
+    local CHECKSUM_FILENAME="$FILENAME.sha256"
+    local EXPECTED_CHECKSUM="$(cat /checksums/$CHECKSUM_FILENAME)"
 
     if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
         echo "Checksum valid!"
@@ -36,6 +36,9 @@ ensure_sdxl_base() {
         echo "Successfully downloaded SDXL base weights!"
 
         verify_checksum $SDXL_PATH/sd_xl_base_1.0.safetensors
+        if [[ $? -gt 0 ]]; then
+            return
+        fi
     else
         echo "Found SDXL base weights"
     fi

@@ -3,13 +3,13 @@ echo "Checking SVD XT 1.1 model"
 export SVD_PATH=/workspace/$APP/models/Stable-diffusion
 
 verify_checksum() {
-    local FILENAME = $(basename $1)
+    local FILENAME="$(basename $1)"
 
     echo "Verifying checksum for $FILENAME..."
 
-    local CHECKSUM = $(sha256sum $1)
-    local CHECKSUM_FILENAME = $FILENAME.sha256
-    local EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
+    local CHECKSUM="$(sha256sum $1)"
+    local CHECKSUM_FILENAME="$FILENAME.sha256"
+    local EXPECTED_CHECKSUM="$(cat /checksums/$CHECKSUM_FILENAME)"
 
     if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
         echo "Checksum valid!"
@@ -34,6 +34,9 @@ ensure_svd() {
         echo "Successfully downloaded SVD-XT weights!"
 
         verify_checksum $SVD_PATH/svd_xt-1.1.safetensors
+        if [[ $? -gt 0 ]]; then
+            return
+        fi
     else
         echo "Found SVD XT 1.1 weights"
     fi
