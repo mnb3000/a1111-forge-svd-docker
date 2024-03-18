@@ -3,13 +3,13 @@ echo "Checking SVD XT 1.1 model"
 export SVD_PATH=/workspace/$APP/models/Stable-diffusion
 
 verify_checksum() {
-    $FILENAME = $(basename $1)
+    local FILENAME = $(basename $1)
 
     echo "Verifying checksum for $FILENAME..."
 
-    $CHECKSUM = $(sha256sum $1)
-    $CHECKSUM_FILENAME = $FILENAME.sha256
-    $EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
+    local CHECKSUM = $(sha256sum $1)
+    local CHECKSUM_FILENAME = $FILENAME.sha256
+    local EXPECTED_CHECKSUM = $(cat ../checksums/$CHECKSUM_FILENAME)
 
     if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
         echo "Checksum valid!"
@@ -23,7 +23,7 @@ verify_checksum() {
 ensure_svd() {
     if [ ! -f $SVD_PATH/svd_xt-1.1.safetensors ]; then
         echo -n "Checking if there's enough space for SVD XT 1.1 download..."
-        FREE=$(df --output=avail -k $SVD_PATH | tail -n 1)
+        local FREE=$(df --output=avail -k $SVD_PATH | tail -n 1)
         if [[ $FREE -lt 5000000 ]]; then
             echo -e "\nNot enough space for SVD XT 1.1 download in $SVD_PATH, skipping."
             return
