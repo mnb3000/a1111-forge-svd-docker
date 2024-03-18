@@ -23,10 +23,6 @@
     "ad_script_names": "dynamic_prompting,dynamic_thresholding,wildcard_recursive,wildcards,lora_block_weight,negpip,soft_inpainting",
     "ad_bbox_sortby": "None",
     "ad_same_seed_for_each_tap": false,
-    "inpaint_anything_save_folder": "inpaint-anything",
-    "inpaint_anything_sam_oncpu": false,
-    "inpaint_anything_offline_inpainting": false,
-    "inpaint_anything_padding_fill": 127,
     "inpain_anything_sam_models_dir": "",
     "use_aria2": true,
     "disable_dns": false,
@@ -300,11 +296,7 @@
     "keyedit_precision_attention": 0.1,
     "keyedit_precision_extra": 0.05,
     "keyedit_delimiters": ".,\\/!?%^*;:{}=`~() ",
-    "keyedit_delimiters_whitespace": [
-        "Tab",
-        "Carriage Return",
-        "Line Feed"
-    ],
+    "keyedit_delimiters_whitespace": ["Tab", "Carriage Return", "Line Feed"],
     "keyedit_move": true,
     "disable_token_counters": false,
     "include_styles_into_token_counters": true,
@@ -361,15 +353,8 @@
     "postprocessing_existing_caption_action": "Ignore",
     "ESRGAN_tile": 192,
     "ESRGAN_tile_overlap": 8,
-    "realesrgan_enabled_models": [
-        "R-ESRGAN 4x+",
-        "R-ESRGAN 4x+ Anime6B"
-    ],
-    "dat_enabled_models": [
-        "DAT x2",
-        "DAT x3",
-        "DAT x4"
-    ],
+    "realesrgan_enabled_models": ["R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B"],
+    "dat_enabled_models": ["DAT x2", "DAT x3", "DAT x4"],
     "DAT_tile": 192,
     "DAT_tile_overlap": 8,
     "unload_models_when_training": false,
@@ -395,9 +380,7 @@
     "canvas_show_tooltip": true,
     "canvas_auto_expand": true,
     "canvas_blur_prompt": false,
-    "canvas_disabled_functions": [
-        "Overlap"
-    ],
+    "canvas_disabled_functions": ["Overlap"],
     "interrogate_keep_models_in_memory": false,
     "interrogate_return_ranks": false,
     "interrogate_clip_num_beams": 1,

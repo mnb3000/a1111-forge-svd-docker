@@ -9,7 +9,7 @@
 * xformers 0.0.23.post1
 * Jupyter Lab
 * [Automatic1111 Stable Diffusion Web UI](
-  https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.8.0
+  https://github.com/AUTOMATIC1111/stable-diffusion-webui-forge) 1.8.0
 * [ControlNet extension](
   https://github.com/Mikubill/sd-webui-controlnet) v1.1.441
 * [After Detailer extension](
@@ -87,7 +87,7 @@ docker run -d \
   -p 3000:3001 \
   -p 8888:8888 \
   -p 2999:2999 \
-  -e VENV_PATH=/workspace/venvs/stable-diffusion-webui \
+  -e VENV_PATH=/workspace/venvs/stable-diffusion-webui-forge \
   ashleykza/a1111:latest
 ```
 
@@ -105,7 +105,7 @@ You can obviously substitute the image name and tag with your own.
 
 | Variable             | Description                                   | Default                                 |
 |----------------------|-----------------------------------------------|-----------------------------------------|
-| VENV_PATH            | Set the path for the Python venv for the app  | /workspace/venvs/stable-diffusion-webui |
+| VENV_PATH            | Set the path for the Python venv for the app  | /workspace/venvs/stable-diffusion-webui-forge |
 | JUPYTER_LAB_PASSWORD | Set a password for Jupyter lab                | not set - no password                   |
 | DISABLE_AUTOLAUNCH   | Disable Web UIs from launching automatically  | enabled                                 |
 

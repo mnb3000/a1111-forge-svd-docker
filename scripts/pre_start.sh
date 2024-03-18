@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export PYTHONUNBUFFERED=1
-export APP="stable-diffusion-webui"
+export APP="stable-diffusion-webui-forge"
 DOCKER_IMAGE_VERSION_FILE="/workspace/${APP}/docker_image_version"
 
 echo "Template version: ${TEMPLATE_VERSION}"
@@ -13,6 +13,15 @@ else
     EXISTING_VERSION="0.0.0"
 fi
 
+execute_script() {
+    local script_path=$1
+    local script_msg=$2
+    if [[ -f ${script_path} ]]; then
+        echo "${script_msg}"
+        bash ${script_path}
+    fi
+}
+
 sync_apps() {
     # Sync main venv to workspace to support Network volumes
     echo "Syncing main venv to workspace, please wait..."
@@ -23,10 +32,10 @@ sync_apps() {
     # Sync application to workspace to support Network volumes
     echo "Syncing ${APP} to workspace, please wait..."
     rsync --remove-source-files -rlptDu /${APP}/ /workspace/${APP}/
-    rm -rf /stable-diffusion-webui
+    rm -rf /stable-diffusion-webui-forge
 
-    echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
-    echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
+    echo "${TEMPLATE_VERSION}" >${DOCKER_IMAGE_VERSION_FILE}
+    echo "${VENV_PATH}" >"/workspace/${APP}/venv_path"
 }
 
 fix_venvs() {
@@ -34,29 +43,19 @@ fix_venvs() {
     /fix_venv.sh /venv ${VENV_PATH}
 }
 
-link_models() {
-   # Link models and VAE if they are not already linked
-   if [[ ! -L /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0.safetensors ]]; then
-       ln -s /sd-models/sd_xl_base_1.0.safetensors /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0.safetensors
-   fi
-
-   if [[ ! -L /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors ]]; then
-       ln -s /sd-models/sd_xl_refiner_1.0.safetensors /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors
-   fi
-
-   if [[ ! -L /workspace/stable-diffusion-webui/models/VAE/sdxl_vae.safetensors ]]; then
-       ln -s /sd-models/sdxl_vae.safetensors /workspace/stable-diffusion-webui/models/VAE/sdxl_vae.safetensors
-   fi
+check_and_download_models() {
+    execute_script "/ensure-sdxl.sh" "Checking SDXL weights..."
+    execute_script "/ensure-svd.sh" "Checking SVD XT 1.1 weights..."
 }
 
 if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -n 1)" = "$EXISTING_VERSION" ]; then
     if [ "$EXISTING_VERSION" != "$TEMPLATE_VERSION" ]; then
         sync_apps
         fix_venvs
-        link_models
+        check_and_download_models
 
-        # Add VENV_PATH to webui-user.sh
-        sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /workspace/stable-diffusion-webui/webui-user.sh
+        # Add VENV_PATH to webui-forge-user.sh
+        sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /workspace/stable-diffusion-webui-forge/webui-forge-user.sh
 
         # Create logs directory
         mkdir -p /workspace/logs
@@ -67,8 +66,7 @@ else
     echo "Existing version is newer than the template version, not syncing!"
 fi
 
-if [[ ${DISABLE_AUTOLAUNCH} ]]
-then
+if [[ ${DISABLE_AUTOLAUNCH} ]]; then
     echo "Auto launching is disabled so the applications will not be started automatically"
     echo "You can launch them manually using the launcher scripts:"
     echo ""
