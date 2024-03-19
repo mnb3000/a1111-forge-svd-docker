@@ -57,4 +57,3 @@ jobs:
           push: true
         env:
           RELEASE: dev-build-${{ github.run_number }}
-          CIVITAI_TOKEN: ${{ secrets.CIVITAI_TOKEN }}
