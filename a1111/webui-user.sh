@@ -7,7 +7,7 @@
 install_dir="/workspace"
 
 # Name of the subdirectory
-#clone_dir="stable-diffusion-webui"
+#clone_dir="stable-diffusion-webui-forge"
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
 export COMMANDLINE_ARGS="--port 3001 --skip-install --listen --api --xformers --enable-insecure-extension-access --no-half-vae"
@@ -27,7 +27,7 @@ venv_dir=VENV_PATH
 # install command for torch
 # export TORCH_COMMAND="pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
 
-# Requirements file to use for stable-diffusion-webui
+# Requirements file to use for stable-diffusion-webui-forge
 #export REQS_FILE="requirements_versions.txt"
 
 # Fixed git repos

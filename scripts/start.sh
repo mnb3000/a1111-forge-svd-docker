@@ -2,6 +2,12 @@
 # ---------------------------------------------------------------------------- #
 #                          Function Definitions                                #
 # ---------------------------------------------------------------------------- #
+check_env() {
+    if [ -z "$CIVITAI_TOKEN" ]; then
+        echo "Container failed to start, please pass -e CIVITAI_TOKEN=yourtokenhere"
+        exit 1
+    fi
+}
 
 start_nginx() {
     echo "Starting Nginx service..."
@@ -42,7 +48,7 @@ setup_ssh() {
     # Add SSH public key from environment variable to ~/.ssh/authorized_keys
     # if the PUBLIC_KEY environment variable is set
     if [[ ${PUBLIC_KEY} ]]; then
-        echo -e "${PUBLIC_KEY}\n" >> ~/.ssh/authorized_keys
+        echo -e "${PUBLIC_KEY}\n" >>~/.ssh/authorized_keys
     fi
 
     chmod 700 -R ~/.ssh
@@ -58,8 +64,8 @@ setup_ssh() {
 
 export_env_vars() {
     echo "Exporting environment variables..."
-    printenv | grep -E '^RUNPOD_|^PATH=|^_=' | awk -F = '{ print "export " $1 "=\"" $2 "\"" }' >> /etc/rp_environment
-    echo 'source /etc/rp_environment' >> ~/.bashrc
+    printenv | grep -E '^RUNPOD_|^PATH=|^_=' | awk -F = '{ print "export " $1 "=\"" $2 "\"" }' >>/etc/rp_environment
+    echo 'source /etc/rp_environment' >>~/.bashrc
 }
 
 start_jupyter() {
@@ -73,23 +79,23 @@ start_jupyter() {
 
     echo "Starting Jupyter Lab..."
     mkdir -p /workspace/logs
-    cd / && \
-    nohup jupyter lab --allow-root \
-      --no-browser \
-      --port=8888 \
-      --ip=* \
-      --FileContentsManager.delete_to_trash=False \
-      --ContentsManager.allow_hidden=True \
-      --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' \
-      --ServerApp.token=${JUPYTER_PASSWORD} \
-      --ServerApp.allow_origin=* \
-      --ServerApp.preferred_dir=/workspace &> /workspace/logs/jupyter.log &
+    cd / &&
+        nohup jupyter lab --allow-root \
+            --no-browser \
+            --port=8888 \
+            --ip=* \
+            --FileContentsManager.delete_to_trash=False \
+            --ContentsManager.allow_hidden=True \
+            --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' \
+            --ServerApp.token=${JUPYTER_PASSWORD} \
+            --ServerApp.allow_origin=* \
+            --ServerApp.preferred_dir=/workspace &>/workspace/logs/jupyter.log &
     echo "Jupyter Lab started"
 }
 
 start_runpod_uploader() {
     echo "Starting RunPod Uploader..."
-    nohup /usr/local/bin/runpod-uploader &> /workspace/logs/runpod-uploader.log &
+    nohup /usr/local/bin/runpod-uploader &>/workspace/logs/runpod-uploader.log &
     echo "RunPod Uploader started"
 }
 
@@ -110,21 +116,21 @@ configure_filezilla() {
         ssh_config="/etc/ssh/sshd_config"
 
         # Enable PasswordAuthentication
-        grep -q "^PasswordAuthentication" ${ssh_config} && \
-          sed -i "s/^PasswordAuthentication.*/PasswordAuthentication yes/" ${ssh_config} || \
-          echo "PasswordAuthentication yes" >> ${ssh_config}
+        grep -q "^PasswordAuthentication" ${ssh_config} &&
+            sed -i "s/^PasswordAuthentication.*/PasswordAuthentication yes/" ${ssh_config} ||
+            echo "PasswordAuthentication yes" >>${ssh_config}
 
         # Enable PermitRootLogin
-        grep -q "^PermitRootLogin" ${ssh_config} && \
-          sed -i "s/^PermitRootLogin.*/PermitRootLogin yes/" ${ssh_config} || \
-          echo "PermitRootLogin yes" >> ${ssh_config}
+        grep -q "^PermitRootLogin" ${ssh_config} &&
+            sed -i "s/^PermitRootLogin.*/PermitRootLogin yes/" ${ssh_config} ||
+            echo "PermitRootLogin yes" >>${ssh_config}
 
         # Restart the SSH service
         service ssh restart
 
         # Create FileZilla XML configuration for SFTP
         filezilla_config_file="/workspace/filezilla_sftp_config.xml"
-        cat > ${filezilla_config_file} << EOF
+        cat >${filezilla_config_file} <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <FileZilla3 version="3.66.1" platform="linux">
     <Servers>
@@ -158,6 +164,7 @@ EOF
 # ---------------------------------------------------------------------------- #
 
 echo "Container Started, configuration in progress..."
+check_env
 start_nginx
 setup_ssh
 start_jupyter
