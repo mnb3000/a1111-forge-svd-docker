@@ -8,9 +8,14 @@ verify_checksum() {
 
     echo "Verifying checksum for $FILENAME..."
 
-    local CHECKSUM="$(sha256sum $1)"
+    if [ ! -f $1 ]; then
+        echo "$FILENAME does not exist."
+        return 0
+    fi
+
+    local CHECKSUM="$(shasum -a 256 $1 | awk '{ print $1 }')"
     local CHECKSUM_FILENAME="$FILENAME.sha256"
-    local EXPECTED_CHECKSUM="$(cat /checksums/$CHECKSUM_FILENAME)"
+    local EXPECTED_CHECKSUM="$(cat ./checksums/$CHECKSUM_FILENAME)"
 
     if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
         echo "Checksum valid!"

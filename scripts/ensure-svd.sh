@@ -9,7 +9,7 @@ verify_checksum() {
 
     if [ ! -f $1 ]; then
         echo "$FILENAME does not exist."
-        return # 1
+        return 0
     fi
 
     local CHECKSUM="$(shasum -a 256 $1 | awk '{ print $1 }')"
@@ -21,15 +21,11 @@ verify_checksum() {
         return 0
     fi
     echo "Checksum not valid! Removing file, restart container to retry..."
-    # rm -f $1
-    return # 1
+    rm -f $1
+    return 1
 }
 
 ensure_svd() {
-    verify_checksum $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors
-    if [[ $? -gt 0 ]]; then
-        return
-    fi
     if [ ! -f $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors ]; then
         echo -n "Checking if there's enough space for SVD XT 1.1 download..."
         local FREE=$(df -k $SVD_PATH | tr -s ' ' | cut -d" " -f 4 | tail -n 1)
@@ -38,14 +34,12 @@ ensure_svd() {
             return
         fi
         echo " Success!"
+
         echo "Starting SVD-XT weights download..."
         download-model https://civitai.com/api/download/models/329995 $SVD_PATH
         echo "Successfully downloaded SVD-XT weights!"
 
         verify_checksum $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors
-        if [[ $? -gt 0 ]]; then
-            return
-        fi
     else
         echo "Found SVD XT 1.1 weights"
     fi
