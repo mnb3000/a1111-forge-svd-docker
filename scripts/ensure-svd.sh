@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Checking SVD XT 1.1 model"
-export SVD_PATH=/workspace/$APP/models/Stable-diffusion
+export SVD_PATH=/workspace/$APP/models/svd
 
 verify_checksum() {
     local FILENAME="$(basename $1)"
@@ -36,7 +36,7 @@ ensure_svd() {
         echo " Success!"
 
         echo "Starting SVD-XT weights download..."
-        download-model https://civitai.com/api/download/models/329995 $SVD_PATH
+        download-model https://civitai.com/api/download/models/329995 $SVD_PATH $CIVITAI_TOKEN
         echo "Successfully downloaded SVD-XT weights!"
 
         verify_checksum $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors
