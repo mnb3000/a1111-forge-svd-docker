@@ -181,7 +181,8 @@ WORKDIR /
 COPY --chmod=755 scripts/* ./
 
 # Copy the checksums
-COPY checksums/* ./
+RUN mkdir -p ./checksums
+COPY checksums/* ./checksums
 
 # Start the container
 SHELL ["/bin/bash", "--login", "-c"]
