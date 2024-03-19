@@ -9,6 +9,7 @@ fi
 URL=${1}
 DESTINATION=${2}
 USER_AGENT_STRING="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+PARAMETERS=""
 
 if ! echo "${URL}" | grep -q "api"; then
     echo "ERROR: Incorrect URL provided, you must provide the Download link from CivitAI, not the link to the model page."

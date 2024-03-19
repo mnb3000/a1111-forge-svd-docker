@@ -6,6 +6,7 @@ DOCKER_IMAGE_VERSION_FILE="/workspace/${APP}/docker_image_version"
 
 echo "Template version: ${TEMPLATE_VERSION}"
 echo "venv: ${VENV_PATH}"
+echo "SDXL enabled: ${ENABLE_SDXL_TURBO}"
 
 if [[ -e ${DOCKER_IMAGE_VERSION_FILE} ]]; then
     EXISTING_VERSION=$(cat ${DOCKER_IMAGE_VERSION_FILE})

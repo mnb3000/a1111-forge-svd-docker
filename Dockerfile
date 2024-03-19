@@ -175,6 +175,8 @@ ENV TEMPLATE_VERSION=${RELEASE}
 ARG VENV_PATH
 ENV VENV_PATH=${VENV_PATH}
 
+ENV ENABLE_SDXL_TURBO="false"
+
 # Copy the scripts
 WORKDIR /
 COPY --chmod=755 scripts/* ./

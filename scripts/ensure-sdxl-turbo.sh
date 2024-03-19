@@ -15,10 +15,10 @@ ensure_sdxl_turbo() {
         echo " Success!"
 
         echo "Starting SDXL Turbo weights download..."
-        wget -O $SDXL_TURBO_PATH/sd_xl_turbo_1.0.safetensors https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0.safetensors -q --show-progress
+        wget -q --show-progress -O $SDXL_TURBO_PATH/sd_xl_turbo_1.0.safetensors https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0.safetensors -q --show-progress
         echo "Successfully downloaded SDXL Turbo weights!"
 
-        verify_checksum $SDXL_PATH/sd_xl_turbo_1.0.safetensors
+        verify_checksum $SDXL_TURBO_PATH/sd_xl_turbo_1.0.safetensors
         if [[ $? -gt 0 ]]; then
             return
         fi
