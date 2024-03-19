@@ -9,7 +9,7 @@ verify_checksum() {
 
     local CHECKSUM="$(sha256sum $1)"
     local CHECKSUM_FILENAME="$FILENAME.sha256"
-    local EXPECTED_CHECKSUM="$(cat /checksums/$CHECKSUM_FILENAME)"
+    local EXPECTED_CHECKSUM="$(cat ./checksums/$CHECKSUM_FILENAME)"
 
     if [[ $CHECKSUM = $EXPECTED_CHECKSUM ]]; then
         echo "Checksum valid!"
@@ -23,14 +23,14 @@ verify_checksum() {
 ensure_svd() {
     if [ ! -f $SVD_PATH/svd_xt-1.1.safetensors ]; then
         echo -n "Checking if there's enough space for SVD XT 1.1 download..."
-        local FREE=$(df --output=avail -k $SVD_PATH | tail -n 1)
+        local FREE=$(df -k $SVD_PATH | tr -s ' ' | cut -d" " -f 4 | tail -n 1)
         if [[ $FREE -lt 5000000 ]]; then
             echo -e "\nNot enough space for SVD XT 1.1 download in $SVD_PATH, skipping."
             return
         fi
         echo " Success!"
         echo "Starting SVD-XT weights download..."
-        download-model https://civitai.com/models/207992 $SVD_PATH/svd_xt-1.1.safetensors
+        download-model https://civitai.com/api/download/models/329995 $SVD_PATH
         echo "Successfully downloaded SVD-XT weights!"
 
         verify_checksum $SVD_PATH/svd_xt-1.1.safetensors

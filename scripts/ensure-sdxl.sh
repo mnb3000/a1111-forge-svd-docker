@@ -32,7 +32,7 @@ ensure_sdxl_base() {
         echo " Success!"
 
         echo "Starting SDXL base weights download..."
-        wget -O $SDXL_PATH/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
+        wget -O $SDXL_PATH/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -q --show-progress
         echo "Successfully downloaded SDXL base weights!"
 
         verify_checksum $SDXL_PATH/sd_xl_base_1.0.safetensors
@@ -55,7 +55,7 @@ ensure_sdxl_refiner() {
         echo " Success!"
 
         echo "Starting SDXL refiner weights download..."
-        wget -O $SDXL_PATH/sd_xl_refiner_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
+        wget -O $SDXL_PATH/sd_xl_refiner_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -q --show-progress
         echo "Successfully downloaded SDXL refiner weights!"
 
         verify_checksum $SDXL_PATH/sd_xl_refiner_1.0.safetensors
@@ -75,7 +75,7 @@ ensure_sdxl_vae() {
         echo " Success!"
 
         echo "Starting SDXL VAE weights download..."
-        wget -O $VAE_PATH/sdxl_vae.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors
+        wget -O $VAE_PATH/sdxl_vae.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors -q --show-progress
         echo "Successfully downloaded SDXL VAE weights!"
 
         verify_checksum $VAE_PATH/sdxl_vae.safetensors
