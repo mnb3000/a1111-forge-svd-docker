@@ -54,8 +54,8 @@ if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -
         fix_venvs
         check_and_download_models
 
-        # Add VENV_PATH to webui-forge-user.sh
-        sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /workspace/stable-diffusion-webui-forge/webui-forge-user.sh
+        # Add VENV_PATH to webui-user.sh
+        sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /workspace/stable-diffusion-webui-forge/webui-user.sh
 
         # Create logs directory
         mkdir -p /workspace/logs
