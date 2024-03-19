@@ -1,5 +1,13 @@
+variable "USERNAME" {
+    default = "mnb3000"
+}
+
+variable "APP" {
+    default = "a1111-forge-svd-docker"
+}
+
 variable "RELEASE" {
-    default = "0.0.1-testing1"
+    default = "0.1.0"
 }
 
 variable "CU_VERSION" {
@@ -11,6 +19,8 @@ target "docker-metadata-action" {}
 target "default" {
     inherits = ["docker-metadata-action"]
     dockerfile = "Dockerfile"
+    # Uncomment this line to build locally
+    # tags = ["${USERNAME}/${APP}:${RELEASE}"]
     args = {
         RELEASE = "${RELEASE}"
         INDEX_URL = "https://download.pytorch.org/whl/cu${CU_VERSION}"

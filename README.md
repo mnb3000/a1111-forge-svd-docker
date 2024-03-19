@@ -1,8 +1,15 @@
 # Docker image for A1111 Forge with Deforum, Stable Video Diffusion XT 1.1, Stable Diffusion XL Base/Turbo
 
+> [!NOTE]
+> This image is heavily based off of [ashleykleynhans/stable-diffusion-docker](https://github.com/ashleykleynhans/stable-diffusion-docker),
+> but standard a1111 webui was replaced with [stable-diffusion-webui-forge](https://github.com/lllyasviel/stable-diffusion-webui-forge)
+> and deforum extension was replaced with it's forge fork. Model weights were
+> removed from the image, and now are being downloaded at the first run (with
+> sha256 checksum validation after download)
+
 > [!IMPORTANT]
-> You need to set `$CIVITAI_TOKEN` environment variable in order for Stable Video Diffusion XT 1.1 to download,
-> otherwise it will not be downloaded
+> You need to set `$CIVITAI_TOKEN` environment variable in order for Stable
+> Video Diffusion XT 1.1 to download, otherwise it will not be downloaded
 
 ## Installs
 
@@ -14,12 +21,11 @@
 -   Torch 2.1.2
 -   xformers 0.0.23.post1
 -   Jupyter Lab
--   [Automatic1111 Stable Diffusion Web UI Forge](https://github.com/lllyasviel/stable-diffusion-webui-forge) 1.7.0d
+-   [Automatic1111 Stable Diffusion Web UI Forge](https://github.com/lllyasviel/stable-diffusion-webui-forge) 1.7.0d _(ControlNet included)_
 -   [Deforum Forge extension](https://github.com/deforum-art/sd-forge-deforum)
 -   [Infinite Image Browsing extension](https://github.com/zanllp/sd-webui-infinite-image-browsing)
 -   [CivitAI extension](https://github.com/civitai/sd_civitai_extension)
 -   [CivitAI Browser+ extension](https://github.com/BlafKing/sd-civitai-browser-plus)
--   [sdxl_vae.safetensors](https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors)
 -   [runpodctl](https://github.com/runpod/runpodctl)
 -   [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
 -   [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
@@ -30,6 +36,7 @@
 
 -   [sd_xl_base_1.0.safetensors](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors)
 -   [sd_xl_refiner_1.0.safetensors](https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors)
+-   [sdxl_vae.safetensors](https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors)
 -   [stableVideoDiffusion_img2vidXt11.safetensors](https://civitai.com/models/207992)
 -   (Optional, set `ENABLE_SDXL_TURBO=true`) [sd_xl_turbo_1.0.safetensors](https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0.safetensors)
 
@@ -42,9 +49,8 @@
 ## Building the Docker image
 
 > [!NOTE]
-> You will need to edit the `docker-bake.hcl` file and update `USERNAME`,
-> and `RELEASE`. You can obviously edit the other values too, but these
-> are the most important ones.
+> You will need to edit the `docker-bake.hcl` file, uncomment line with `tags` and update `RELEASE`.
+> You can obviously edit the other values too, but these are the most important ones.
 
 <!-- > [!IMPORTANT] -->
 <!-- > In order to cache the models, you will need at least 32GB of CPU/system -->

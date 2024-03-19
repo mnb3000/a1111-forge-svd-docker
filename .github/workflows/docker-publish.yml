@@ -99,7 +99,6 @@ jobs:
             type=semver,pattern={{version}},value=${{ needs.release-on-push.outputs.tag_name  }}
             type=semver,pattern={{major}}.{{minor}},value=${{ needs.release-on-push.outputs.tag_name  }}
             type=semver,pattern={{major}},value=${{ needs.release-on-push.outputs.tag_name  }}
-            type=ref,event=branch
 
       - name: Build and push
         uses: docker/bake-action@v4
