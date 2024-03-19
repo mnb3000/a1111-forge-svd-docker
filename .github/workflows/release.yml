@@ -1,0 +1,48 @@
+name: Release and update changelog
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release-on-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - id: compute-tag
+        name: Compute tag
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: patch
+          dry_run: true
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ steps.compute-tag.outputs.tag_name }}
+
+      - id: release
+        name: Release
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: patch
+          release_body: ${{ steps.changelog.outputs.changes }}
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: "chore(release): update CHANGELOG.md for ${{ steps.release.outputs.tag_name }} [skip ci]"
+          file_pattern: CHANGELOG.md

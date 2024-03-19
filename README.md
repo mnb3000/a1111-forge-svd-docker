@@ -46,11 +46,11 @@
 > and `RELEASE`. You can obviously edit the other values too, but these
 > are the most important ones.
 
-> [!IMPORTANT]
-> In order to cache the models, you will need at least 32GB of CPU/system
-> memory (not VRAM) due to the large size of the models. If you have less
-> than 32GB of system memory, you can comment out or remove the code in the
-> `Dockerfile` that caches the models.
+<!-- > [!IMPORTANT] -->
+<!-- > In order to cache the models, you will need at least 32GB of CPU/system -->
+<!-- > memory (not VRAM) due to the large size of the models. If you have less -->
+<!-- > than 32GB of system memory, you can comment out or remove the code in the -->
+<!-- > `Dockerfile` that caches the models. -->
 
 ```bash
 # Clone the repo

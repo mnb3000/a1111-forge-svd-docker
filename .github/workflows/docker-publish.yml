@@ -2,39 +2,13 @@ name: Docker publish
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 permissions:
   contents: write
 
 jobs:
-  release-on-push:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - id: release
-        name: Release
-        uses: rymndhng/release-on-push-action@master
-        with:
-          bump_version_scheme: patch
-          use_github_release_notes: true
-
-      - name: Create changelog
-        uses: TriPSs/conventional-changelog-action@v5
-        with:
-          github-token: ${{ secrets.github_token }}
-          skip-tag: "true"
-          skip-bump: "true"
-          skip-version-file: "true"
-          release-count: 20
-
   build:
     runs-on: ubuntu-latest
     needs: release-on-push
@@ -89,4 +63,4 @@ jobs:
           targets: default
           push: true
         env:
-          RELEASE: ${{needs.jobs.release-on-push.steps.release.outputs.tag_name}}
+          RELEASE: ${{ github.ref_name }}
