@@ -46,14 +46,14 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          fromTag: ${{ needs.jobs.release-on-push.outputs.tag_name }}
+          fromTag: ${{ needs.release-on-push.outputs.tag_name }}
           toTag: ${{ env.previousTag }}
 
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
-          commit_message: "chore(release): update CHANGELOG.md for ${{ steps.release.outputs.tag_name }} [skip ci] [norelease]"
+          commit_message: "chore(release): update CHANGELOG.md for ${{ needs.release-on-push.outputs.tag_name  }} [skip ci] [norelease]"
           file_pattern: CHANGELOG.md
 
   build:
@@ -96,9 +96,9 @@ jobs:
           flavor: |
             latest=auto
           tags: |
-            type=semver,pattern={{version}},version=${{ needs.jobs.release-on-push.steps.outputs.tag_name }}
-            type=semver,pattern={{major}}.{{minor}},version=${{ needs.jobs.release-on-push.steps.outputs.tag_name }}
-            type=semver,pattern={{major}},version=${{ needs.jobs.release-on-push.steps.outputs.tag_name }}
+            type=semver,pattern={{version}},value=${{ needs.release-on-push.outputs.tag_name  }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.release-on-push.outputs.tag_name  }}
+            type=semver,pattern={{major}},value=${{ needs.release-on-push.outputs.tag_name  }}
             type=ref,event=branch
 
       - name: Build and push
@@ -110,4 +110,4 @@ jobs:
           targets: default
           push: true
         env:
-          RELEASE: ${{ needs.jobs.release-on-push.steps.outputs.tag_name }}
+          RELEASE: ${{ needs.release-on-push.outputs.tag_name }}
