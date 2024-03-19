@@ -1,10 +1,10 @@
 # Docker image for A1111 Forge with Deforum, Stable Video Diffusion XT 1.1, Stable Diffusion XL Base/Turbo
 
 [![GitHub Repo](https://img.shields.io/badge/github-repo-green?logo=github)](https://github.com/mnb3000/a1111-forge-svd-docker)
-[![RunPod.io Template](https://img.shields.io/badge/runpod_template-deploy-9b4ce6?logo=linuxcontainers&logoColor=9b4ce6)](https://runpod.io/gsc?template=ya6013lj5a&ref=2xxro4sy)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mnb3000/a1111-forge-svd-docker/docker-publish.yml?logo=github)
-![Docker Image Version](https://img.shields.io/docker/v/mnb3000/a1111-forge-svd-docker?sort=semver&logo=docker&color=blue)
-![GitHub Release](https://img.shields.io/github/v/release/mnb3000/a1111-forge-svd-docker?logo=github)
+[![RunPod.io Template](https://img.shields.io/badge/runpod_template-deploy-9b4ce6?logo=linuxcontainers&logoColor=9b4ce6)](https://runpod.io/console/gpu-cloud?template=9xw5gd0r96&ref=ul2zdfbz)
+[![Docker Image Version](https://img.shields.io/docker/v/mnb3000/a1111-forge-svd-docker?sort=semver&logo=docker&color=blue)](https://hub.docker.com/repository/docker/mnb3000/a1111-forge-svd-docker/)
+[![GitHub Release](https://img.shields.io/github/v/release/mnb3000/a1111-forge-svd-docker?logo=github)](https://github.com/mnb3000/a1111-forge-svd-docker/releases/latest)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mnb3000/a1111-forge-svd-docker/docker-publish.yml?logo=github)](https://github.com/mnb3000/a1111-forge-svd-docker/actions/workflows/docker-publish.yml)
 
 > [!NOTE]
 > This image is heavily based off of [ashleykleynhans/stable-diffusion-docker](https://github.com/ashleykleynhans/stable-diffusion-docker),
