@@ -6,6 +6,11 @@ source ./verify-checksum.sh
 
 ensure_svd() {
     if [ ! -f $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors ]; then
+        if [ -z "$CIVITAI_TOKEN" ]; then
+            echo "No CivitAI token specified, skipping SVD download..."
+            exit 1
+        fi
+
         echo -n "Checking if there's enough space for SVD XT 1.1 download..."
         local FREE=$(df -k $SVD_PATH | tr -s ' ' | cut -d" " -f 4 | tail -n 1)
         if [[ $FREE -lt 5000000 ]]; then

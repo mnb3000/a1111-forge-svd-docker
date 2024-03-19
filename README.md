@@ -1,7 +1,8 @@
 # Docker image for A1111 Forge with Deforum, Stable Video Diffusion XT 1.1, Stable Diffusion XL Base/Turbo
 
 > [!IMPORTANT]
-> You need to set `$CIVITAI_TOKEN` environment variable in order for Stable Video Diffusion XT 1.1 to download
+> You need to set `$CIVITAI_TOKEN` environment variable in order for Stable Video Diffusion XT 1.1 to download,
+> otherwise it will not be downloaded
 
 ## Installs
 
