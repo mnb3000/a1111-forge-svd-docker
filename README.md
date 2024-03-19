@@ -1,5 +1,11 @@
 # Docker image for A1111 Forge with Deforum, Stable Video Diffusion XT 1.1, Stable Diffusion XL Base/Turbo
 
+[![GitHub Repo](https://img.shields.io/badge/github-repo-green?logo=github)](https://github.com/mnb3000/a1111-forge-svd-docker)
+[![RunPod.io Template](https://img.shields.io/badge/runpod_template-deploy-9b4ce6?logo=linuxcontainers&logoColor=9b4ce6)](https://runpod.io/gsc?template=ya6013lj5a&ref=2xxro4sy)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mnb3000/a1111-forge-svd-docker/docker-publish.yml?logo=github)
+![Docker Image Version](https://img.shields.io/docker/v/mnb3000/a1111-forge-svd-docker?sort=semver&logo=docker&color=blue)
+![GitHub Release](https://img.shields.io/github/v/release/mnb3000/a1111-forge-svd-docker?logo=github)
+
 > [!NOTE]
 > This image is heavily based off of [ashleykleynhans/stable-diffusion-docker](https://github.com/ashleykleynhans/stable-diffusion-docker),
 > but standard a1111 webui was replaced with [stable-diffusion-webui-forge](https://github.com/lllyasviel/stable-diffusion-webui-forge)
@@ -40,11 +46,11 @@
 -   [stableVideoDiffusion_img2vidXt11.safetensors](https://civitai.com/models/207992)
 -   (Optional, set `ENABLE_SDXL_TURBO=true`) [sd_xl_turbo_1.0.safetensors](https://huggingface.co/stabilityai/sdxl-turbo/resolve/main/sd_xl_turbo_1.0.safetensors)
 
-<!-- ## Available on RunPod -->
-<!---->
-<!-- This image is designed to work on [RunPod](https://runpod.io?ref=2xxro4sy). -->
-<!-- You can use my custom [RunPod template](https://runpod.io/console/gpu-cloud?template=ts8ze6urzh&ref=2xxro4sy) -->
-<!-- to launch it on RunPod. -->
+## Available on RunPod
+
+This image is designed to work on [RunPod](https://runpod.io?ref=ul2zdfbz).
+You can use my custom [RunPod template](https://runpod.io/console/gpu-cloud?template=9xw5gd0r96&ref=ul2zdfbz)
+to launch it on RunPod.
 
 ## Building the Docker image
 
