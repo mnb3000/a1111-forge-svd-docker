@@ -49,7 +49,7 @@ jobs:
         run: |
           docker image rm -f \
           $( \
-            docker image -a | \
+            docker image ls -a | \
             grep -v "buildkit" | \
             grep -v "ubuntu.*22\.04" | \
             awk 'NR>1 {print $3}'
