@@ -17,8 +17,8 @@ fi
 
 echo "Downloading model from ${URL}, please wait..."
 
-if ! [[ -z $2 ]]; then
-    PARAMETERS="?token=$2"
+if ! [ -z $CIVITAI_TOKEN ]; then
+    PARAMETERS="?token=$3"
 fi
 
 cd ${DESTINATION}

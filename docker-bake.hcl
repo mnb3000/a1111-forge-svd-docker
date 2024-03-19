@@ -6,8 +6,6 @@ variable "CU_VERSION" {
     default = "118"
 }
 
-variable "CIVITAI_TOKEN" {}
-
 target "docker-metadata-action" {}
 
 target "default" {
