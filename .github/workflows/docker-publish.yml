@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   release-on-push:
     runs-on: ubuntu-latest
@@ -14,10 +17,19 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - id: release
+        name: Release
         uses: rymndhng/release-on-push-action@master
         with:
           bump_version_scheme: patch
           use_github_release_notes: true
+
+      - name: Create changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.github_token }}
+          skip-tag: "true"
+          skip-bump: "true"
+          release-count: 20
 
   build:
     runs-on: ubuntu-latest
