@@ -16,6 +16,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - id: release
         name: Release
         uses: rymndhng/release-on-push-action@master
@@ -29,6 +32,7 @@ jobs:
           github-token: ${{ secrets.github_token }}
           skip-tag: "true"
           skip-bump: "true"
+          skip-version-file: "true"
           release-count: 20
 
   build:
@@ -85,4 +89,4 @@ jobs:
           targets: default
           push: true
         env:
-          RELEASE: ${{jobs.release-on-push.steps.release.outputs.tag_name}}
+          RELEASE: ${{needs.jobs.release-on-push.steps.release.outputs.tag_name}}
