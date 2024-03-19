@@ -20,9 +20,6 @@ ensure_sdxl_base() {
         echo "Successfully downloaded SDXL base weights!"
 
         verify_checksum $SDXL_PATH/sd_xl_base_1.0.safetensors
-        if [[ $? -gt 0 ]]; then
-            return
-        fi
     else
         echo "Found SDXL base weights"
     fi

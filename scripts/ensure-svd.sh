@@ -15,7 +15,7 @@ ensure_svd() {
         echo " Success!"
 
         echo "Starting SVD-XT weights download..."
-        download-model https://civitai.com/api/download/models/329995 $SVD_PATH $CIVITAI_TOKEN
+        download-model https://civitai.com/api/download/models/329995 $SVD_PATH
         echo "Successfully downloaded SVD-XT weights!"
 
         verify_checksum $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors

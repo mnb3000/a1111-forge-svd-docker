@@ -46,7 +46,7 @@ fix_venvs() {
 check_and_download_models() {
     execute_script "/ensure-sdxl.sh" "Checking SDXL weights..."
     execute_script "/ensure-svd.sh" "Checking SVD XT 1.1 weights..."
-    if [[ -z $ENABLE_SDXL_TURBO ]]; then
+    if [[ $ENABLE_SDXL_TURBO == "true" ]]; then
         execute_script "/ensure-sdxl-turbo.sh" "Checking SDXL Turbo weights..."
     fi
 }
