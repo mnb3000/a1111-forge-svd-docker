@@ -19,21 +19,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - id: compute-tag
+        name: Compute tag
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: patch
+          dry_run: true
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ steps.compute-tag.outputs.tag_name }}
+
       - id: release
         name: Release
         uses: rymndhng/release-on-push-action@master
         with:
           bump_version_scheme: patch
-          use_github_release_notes: true
+          release_body: ${{ steps.changelog.outputs.changes }}
 
-      - name: Create changelog
-        uses: TriPSs/conventional-changelog-action@v5
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          github-token: ${{ secrets.github_token }}
-          skip-tag: "true"
-          skip-bump: "true"
-          skip-version-file: "true"
-          release-count: 20
+          branch: main
+          commit_message: "chore(release): update CHANGELOG.md for ${{ steps.release.outputs.tag_name }} [skip ci]"
+          file_pattern: CHANGELOG.md
 
   build:
     runs-on: ubuntu-latest
