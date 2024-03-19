@@ -20,6 +20,9 @@ ensure_sdxl_base() {
         echo "Successfully downloaded SDXL base weights!"
 
         verify_checksum $SDXL_PATH/sd_xl_base_1.0.safetensors
+        if [[ $? -gt 0 ]]; then
+            exit 1
+        fi
     else
         echo "Found SDXL base weights"
     fi
@@ -40,6 +43,9 @@ ensure_sdxl_refiner() {
         echo "Successfully downloaded SDXL refiner weights!"
 
         verify_checksum $SDXL_PATH/sd_xl_refiner_1.0.safetensors
+        if [[ $? -gt 0 ]]; then
+            exit 1
+        fi
     else
         echo "Found SDXL refiner weights"
     fi
@@ -60,6 +66,9 @@ ensure_sdxl_vae() {
         echo "Successfully downloaded SDXL VAE weights!"
 
         verify_checksum $VAE_PATH/sdxl_vae.safetensors
+        if [[ $? -gt 0 ]]; then
+            exit 1
+        fi
     else
         echo "Found SDXL VAE weights"
     fi

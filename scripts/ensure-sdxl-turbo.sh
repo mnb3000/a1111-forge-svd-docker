@@ -20,7 +20,7 @@ ensure_sdxl_turbo() {
 
         verify_checksum $SDXL_TURBO_PATH/sd_xl_turbo_1.0.safetensors
         if [[ $? -gt 0 ]]; then
-            return
+            exit 1
         fi
     else
         echo "Found SDXL Turbo weights"

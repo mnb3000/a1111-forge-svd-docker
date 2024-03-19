@@ -19,6 +19,9 @@ ensure_svd() {
         echo "Successfully downloaded SVD-XT weights!"
 
         verify_checksum $SVD_PATH/stableVideoDiffusion_img2vidXt11.safetensors
+        if [[ $? -gt 0 ]]; then
+            exit 1
+        fi
     else
         echo "Found SVD XT 1.1 weights"
     fi
